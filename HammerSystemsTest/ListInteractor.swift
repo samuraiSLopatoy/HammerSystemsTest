@@ -13,25 +13,53 @@
 import UIKit
 
 protocol ListBusinessLogic {
-    func doSomething(request: ListRequest)
+    func fetchDrinks()
+    func fetchPizza()
+    func fetchCombo()
+    func fetchDesserts()
 }
 
 protocol ListDataStore {
-
+    var drinks:   [Category] { get }
+    var pizza:    [Category] { get }
+    var combo:    [Category] { get }
+    var desserts: [Category] { get }
 }
 
 class ListInteractor: ListBusinessLogic, ListDataStore {
-    
     var presenter: ListPresentationLogic?
-    var worker: ListWorker?
     
-    // MARK: Do something
-    
-    func doSomething(request: ListRequest) {
-        worker = ListWorker()
-        worker?.doSomeWork()
+    var drinks:   [Category] = []
+    var pizza:    [Category] = []
+    var combo:    [Category] = []
+    var desserts: [Category] = []
         
-        let response = ListResponse()
-        presenter?.presentSomething(response: response)
+// MARK: - Interactor to Presenter
+    
+    func fetchDrinks() {
+        NetworkManager.shared.fetchData { [weak self] category in
+            self?.drinks = category
+            let drinksResponse = ListResponse(category: category)
+            self?.presenter?.presentDrinks(response: drinksResponse)
+        }
     }
+    
+    func fetchPizza() {
+        let pizza = Bundle.main.decode([Category].self, from: "pizza.json")
+        let pizzaResponse = ListResponse(category: pizza)
+        presenter?.presentPizza(response: pizzaResponse)
+    }
+    
+    func fetchCombo() {
+        let combo = Bundle.main.decode([Category].self, from: "combo.json")
+        let comboResponse = ListResponse(category: combo)
+        presenter?.presentCombo(response: comboResponse)
+    }
+    
+    func fetchDesserts() {
+        let desserts = Bundle.main.decode([Category].self, from: "desserts.json")
+        let dessertsResponse = ListResponse(category: desserts)
+        presenter?.presentDesserts(response: dessertsResponse)
+    }
+    
 }

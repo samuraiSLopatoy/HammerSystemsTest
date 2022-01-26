@@ -13,17 +13,34 @@
 import UIKit
 
 protocol ListPresentationLogic {
-    func presentSomething(response: List.Something.Response)
+    func presentDrinks(response: ListResponse)
+    func presentPizza(response: ListResponse)
+    func presentCombo(response: ListResponse)
+    func presentDesserts(response: ListResponse)
 }
 
 class ListPresenter: ListPresentationLogic {
-    
     weak var viewController: ListDisplayLogic?
     
-    // MARK: Do something
+// MARK: - Presenter to ViewController
     
-    func presentSomething(response: ListResponse) {
-        let viewModel = ListViewModel()
-        viewController?.displaySomething(viewModel: viewModel)
+    func presentDrinks(response: ListResponse) {
+        let drinksViewModel = ListViewModel(category: response.category)
+        viewController?.displayDrinks(viewModel: drinksViewModel)
+    }
+    
+    func presentPizza(response: ListResponse) {
+        let pizzaViewModel = ListViewModel(category: response.category)
+        viewController?.displayPizza(viewModel: pizzaViewModel)
+    }
+    
+    func presentCombo(response: ListResponse) {
+        let comboViewModel = ListViewModel(category: response.category)
+        viewController?.displayCombo(viewModel: comboViewModel)
+    }
+    
+    func presentDesserts(response: ListResponse) {
+        let dessertsViewModel = ListViewModel(category: response.category)
+        viewController?.displayDesserts(viewModel: dessertsViewModel)
     }
 }

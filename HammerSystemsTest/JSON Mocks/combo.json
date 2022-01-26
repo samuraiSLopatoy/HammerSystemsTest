@@ -1,0 +1,21 @@
+[
+    {
+        "id": 1,
+        "name": "2 pizza + pepsi",
+        "tagline": "Cheese, tomato, bread",
+        "image_url": "combo1"
+    },
+    {
+        "id": 2,
+        "name": "Pizza + cola + dog",
+        "tagline": "Cheese, sausage, bread",
+        "image_url": "combo2"
+    },
+    {
+        "id": 3,
+        "name": "Pizza + pepsi + dog",
+        "tagline": "Cheese, pineapple, bread",
+        "image_url": "combo3"
+    }
+]
+

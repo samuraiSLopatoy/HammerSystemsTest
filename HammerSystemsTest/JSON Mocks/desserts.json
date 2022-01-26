@@ -1,0 +1,21 @@
+[
+    {
+        "id": 1,
+        "name": "Cake",
+        "tagline": "Very tasty",
+        "image_url": "dessert1"
+    },
+    {
+        "id": 2,
+        "name": "Cakes too",
+        "tagline": "Amazing",
+        "image_url": "dessert2"
+    },
+    {
+        "id": 3,
+        "name": "Omnomnom",
+        "tagline": "Wonderful",
+        "image_url": "dessert3"
+    }
+]
+

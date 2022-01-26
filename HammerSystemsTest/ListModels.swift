@@ -12,21 +12,28 @@
 
 import UIKit
 
-typealias ListRequest = List.Something.Request
-typealias ListResponse = List.Something.Response
-typealias ListViewModel = List.Something.ViewModel
+
+
+typealias ListRequest = List.ShowCategories.Request
+typealias ListResponse = List.ShowCategories.Response
+typealias ListViewModel = List.ShowCategories.ViewModel
 
 enum List {
-    // MARK: Use cases
     
-    enum Something {
+    // MARK: Use cases
+    enum ShowCategories {
+        
         struct Request {
+            
         }
         
         struct Response {
+            let category: [Category]
         }
         
         struct ViewModel {
+            let category: [Category]
         }
+        
     }
 }

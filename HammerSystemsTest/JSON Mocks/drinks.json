@@ -1,0 +1,21 @@
+[
+    {
+        "id": 1,
+        "name": "Buzz",
+        "tagline": "A Real Bitter Experience",
+        "image_url": "drinks1"
+    },
+    {
+        "id": 2,
+        "name": "Trashy Blonde",
+        "tagline": "You Know You Shouldn't",
+        "image_url": "drinks2"
+    },
+    {
+        "id": 3,
+        "name": "Berliner Weisse With Yuzu - B-Sides",
+        "tagline": "Japanese Citrus Berliner Weisse",
+        "image_url": "drinks1"
+    }
+]
+

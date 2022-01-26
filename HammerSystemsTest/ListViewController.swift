@@ -13,31 +13,230 @@
 import UIKit
 
 protocol ListDisplayLogic: AnyObject {
-    func displaySomething(viewModel: List.Something.ViewModel)
+    func displayDrinks(viewModel: ListViewModel)
+    func displayPizza(viewModel: ListViewModel)
+    func displayCombo(viewModel: ListViewModel)
+    func displayDesserts(viewModel: ListViewModel)
 }
 
-class ListViewController: UITableViewController, ListDisplayLogic {
-        
+class ListViewController: UIViewController, ListDisplayLogic {
     var interactor: ListBusinessLogic?
     
-    // MARK: View lifecycle
+    // MARK: From Web
+    private var drinks: [Category] = []
+    
+    // MARK: From JSON Mocks
+    private var pizza:    [Category] = []
+    private var combo:    [Category] = []
+    private var desserts: [Category] = []
+    
+    var dataSource: UICollectionViewDiffableDataSource<Section, Category>?
+    var collectionView: UICollectionView!
+    
+    enum Section: Int, CaseIterable {
+        case drinks, pizza, combo, desserts
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         ListConfigurator.shared.configure(with: self)
-        doSomething()
+        
+        setupCollectionView()
+        createDataSource()
+        
+        fetchDrinks()
+        fetchPizza()
+        fetchCombo()
+        fetchDesserts()
+        
+        setupCustomNavBar()
     }
     
-    // MARK: Do something
-    
-    func doSomething() {
-        let request = ListRequest()
-        interactor?.doSomething(request: request)
-    }
-    
-    func displaySomething(viewModel: ListViewModel) {
+    private func setupCustomNavBar() {
+        
+        let moscowLabel = UILabel()
+        moscowLabel.text = "Moscow ∨"
+        moscowLabel.font = .systemFont(ofSize: 14)
 
+        let button1 = UIButton()
+        button1.setTitle("Drinks", for: .normal)
+        button1.frame.size = CGSize(width: 40, height: 10)
+        button1.setTitleColor(.black, for: .normal)
+
+        let button2 = UIButton()
+        button2.setTitle("Pizza", for: .normal)
+        button2.frame.size = CGSize(width: 40, height: 10)
+        button2.setTitleColor(.black, for: .normal)
+
+        let button3 = UIButton()
+        button3.setTitle("Combo", for: .normal)
+        button3.frame.size = CGSize(width: 40, height: 10)
+        button3.setTitleColor(.black, for: .normal)
+
+        let button4 = UIButton()
+        button4.setTitle("Desserts", for: .normal)
+        button4.frame.size = CGSize(width: 40, height: 10)
+        button4.setTitleColor(.black, for: .normal)
+
+        let hStackView = UIStackView(arrangedSubviews: [button1, button2, button3, button4])
+        hStackView.axis = .horizontal
+        hStackView.frame.size.width = UIScreen.main.bounds.width
+        hStackView.spacing = 40
+
+        let vStackView = UIStackView(arrangedSubviews: [moscowLabel, hStackView])
+        vStackView.axis = .vertical
+        vStackView.alignment = .leading
+
+        navigationItem.titleView = vStackView
     }
     
+// MARK: - ViewController to Interactor
+    
+    func fetchDrinks() {
+        interactor?.fetchDrinks()
+    }
+    
+    func fetchPizza() {
+        interactor?.fetchPizza()
+    }
+    
+    func fetchCombo() {
+        interactor?.fetchCombo()
+    }
+    
+    func fetchDesserts() {
+        interactor?.fetchDesserts()
+    }
+    
+// MARK: - Display logic
+    
+    func displayDrinks(viewModel: ListViewModel) {
+        drinks = viewModel.category
+        reloadData()
+    }
+    
+    func displayPizza(viewModel: ListViewModel) {
+        pizza = viewModel.category
+    }
+    
+    func displayCombo(viewModel: ListViewModel) {
+        combo = viewModel.category
+    }
+    
+    func displayDesserts(viewModel: ListViewModel) {
+        desserts = viewModel.category
+    }
+    
+// MARK: - Setup CollectionView
+    private func setupCollectionView() {
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.backgroundColor = .systemGray5
+        view.addSubview(collectionView)
+        
+        collectionView.register(DrinkCell.self,   forCellWithReuseIdentifier: DrinkCell.reuseId)
+        collectionView.register(PizzaCell.self,   forCellWithReuseIdentifier: PizzaCell.reuseId)
+        collectionView.register(ComboCell.self,   forCellWithReuseIdentifier: ComboCell.reuseId)
+        collectionView.register(DessertCell.self, forCellWithReuseIdentifier: DessertCell.reuseId)
+    }
+    
+// MARK: - Reload data
+    private func reloadData() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Category>()
+        
+        snapshot.appendSections([.drinks, .pizza, .combo, .desserts])
+        
+        snapshot.appendItems(drinks, toSection: .drinks)
+        snapshot.appendItems(pizza, toSection: .pizza)
+        snapshot.appendItems(combo, toSection: .combo)
+        snapshot.appendItems(desserts, toSection: .desserts)
+        
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+}
+
+// MARK: - Data Source
+extension ListViewController {
+    private func createDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<Section, Category>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, category) -> UICollectionViewCell? in
+            
+            guard let section = Section(rawValue: indexPath.section) else { fatalError("Unknown section kind") }
+            
+            switch section {
+            case .drinks:
+                return self.configure(collectionView: collectionView, cellType: DrinkCell.self, with: category, for: indexPath)
+            case .pizza:
+                return self.configure(collectionView: collectionView, cellType: PizzaCell.self, with: category, for: indexPath)
+            case .combo:
+                return self.configure(collectionView: collectionView, cellType: ComboCell.self, with: category, for: indexPath)
+            case .desserts:
+                return self.configure(collectionView: collectionView, cellType: DessertCell.self, with: category, for: indexPath)
+            }
+        })
+    }
+}
+
+
+// MARK: - Setup layout
+extension ListViewController {
+    private func createCompositionalLayout() -> UICollectionViewLayout {
+        
+        let layout = UICollectionViewCompositionalLayout { (senctionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            guard let section = Section(rawValue: senctionIndex) else { fatalError("Unknown section kind") }
+        
+            switch section {
+            case .drinks:
+                return self.createSection()
+            case .pizza:
+                return self.createSection()
+            case .combo:
+                return self.createSection()
+            case .desserts:
+                return self.createSection()
+            }
+        }
+        
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 10
+        layout.configuration = config
+        return layout
+    }
+    
+    private func createSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                              heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .absolute(88))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 1
+        section.contentInsets = NSDirectionalEdgeInsets.init(top: 16, leading: 0, bottom: 0, trailing: 0)
+        
+        return section
+    }
+    
+}
+
+// MARK: - SwiftUI
+import SwiftUI
+
+struct ListVCProvider: PreviewProvider {
+    static var previews: some View {
+        ContainerView().edgesIgnoringSafeArea(.all)
+    }
+    
+    struct ContainerView: UIViewControllerRepresentable {
+        let mainTabBarController = MainTabBarController()
+        func makeUIViewController(context: UIViewControllerRepresentableContext<ListVCProvider.ContainerView>) -> MainTabBarController {
+            return mainTabBarController
+        }
+        
+        func updateUIViewController(_ uiViewController: ListVCProvider.ContainerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ListVCProvider.ContainerView>) {}
+    }
 }
