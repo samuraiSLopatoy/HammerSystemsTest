@@ -25,6 +25,7 @@ class DessertCell: UICollectionViewCell, SelfConfiguringCell {
         self.layer.cornerRadius = 6
         dessertImageView.clipsToBounds = true
         dessertImageView.layer.cornerRadius = 6
+        taglineLabel.textColor = .gray
     }
     
     required init?(coder: NSCoder) {

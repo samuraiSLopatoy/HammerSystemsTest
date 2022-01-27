@@ -23,6 +23,7 @@ class ComboCell: UICollectionViewCell, SelfConfiguringCell {
         
         self.clipsToBounds = true
         self.layer.cornerRadius = 6
+        taglineLabel.textColor = .gray
     }
     
     required init?(coder: NSCoder) {

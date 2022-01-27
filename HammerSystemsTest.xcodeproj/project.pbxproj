@@ -36,6 +36,7 @@
 		C8D48F4527A0320400EE8309 /* ComboCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D48F4427A0320400EE8309 /* ComboCell.swift */; };
 		C8D48F4727A0320D00EE8309 /* DessertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D48F4627A0320D00EE8309 /* DessertCell.swift */; };
 		C8D48F4A27A0351000EE8309 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D48F4927A0351000EE8309 /* UIViewController + Extension.swift */; };
+		C8D48F4D27A17EA500EE8309 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D48F4C27A17EA500EE8309 /* BannerCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		C8D48F4427A0320400EE8309 /* ComboCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboCell.swift; sourceTree = "<group>"; };
 		C8D48F4627A0320D00EE8309 /* DessertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertCell.swift; sourceTree = "<group>"; };
 		C8D48F4927A0351000EE8309 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
+		C8D48F4C27A17EA500EE8309 /* BannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				C8D48F4827A0322000EE8309 /* Protocol */,
+				C8D48F4C27A17EA500EE8309 /* BannerCell.swift */,
 				C8D48F4227A01B7700EE8309 /* DrinkCell.swift */,
 				C8D48F1A279EB56600EE8309 /* PizzaCell.swift */,
 				C8D48F4427A0320400EE8309 /* ComboCell.swift */,
@@ -294,6 +297,7 @@
 				C8D48F4527A0320400EE8309 /* ComboCell.swift in Sources */,
 				C8D48F2A279EDB5E00EE8309 /* Bundle + Extension.swift in Sources */,
 				C8D48F1B279EB56600EE8309 /* PizzaCell.swift in Sources */,
+				C8D48F4D27A17EA500EE8309 /* BannerCell.swift in Sources */,
 				C8D48F13279EA06D00EE8309 /* ContactsViewController.swift in Sources */,
 				C8D48F4027A01AF700EE8309 /* Category.swift in Sources */,
 				C8D48F3C27A01AA600EE8309 /* SelfConfiguringCell.swift in Sources */,

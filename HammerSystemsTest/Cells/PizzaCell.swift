@@ -25,6 +25,7 @@ class PizzaCell: UICollectionViewCell, SelfConfiguringCell {
         self.layer.cornerRadius = 6
         pizzaImageView.clipsToBounds = true
         pizzaImageView.layer.cornerRadius = 6
+        taglineLabel.textColor = .gray
     }
     
     required init?(coder: NSCoder) {

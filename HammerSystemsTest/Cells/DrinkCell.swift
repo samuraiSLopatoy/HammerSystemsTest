@@ -25,6 +25,7 @@ class DrinkCell: UICollectionViewCell, SelfConfiguringCell {
         self.layer.cornerRadius = 6
         nameLabel.numberOfLines = 0
         taglineLabel.numberOfLines = 0
+        taglineLabel.textColor = .gray
     }
     
     required init?(coder: NSCoder) {
