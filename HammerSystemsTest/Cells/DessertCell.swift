@@ -66,7 +66,7 @@ extension DessertCell {
         ])
         
         NSLayoutConstraint.activate([
-            taglineLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -32),
+            taglineLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12),
             taglineLabel.leadingAnchor.constraint(equalTo: dessertImageView.trailingAnchor, constant: 16),
             taglineLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 16)
         ])

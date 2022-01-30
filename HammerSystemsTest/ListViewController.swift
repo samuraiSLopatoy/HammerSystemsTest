@@ -39,7 +39,9 @@ class ListViewController: UIViewController, ListDisplayLogic {
     private var desserts: [Category] = []
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Category>?
+    
     var collectionView: UICollectionView!
+    var buttonsStackView: UIStackView!
     
     enum Section: Int, CaseIterable {
         case banners, drinks, pizza, combo, desserts
@@ -47,9 +49,10 @@ class ListViewController: UIViewController, ListDisplayLogic {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor = .systemGray5
         ListConfigurator.shared.configure(with: self)
         
+        setupButtonsStackView()
         setupCollectionView()
         createDataSource()
         
@@ -61,18 +64,53 @@ class ListViewController: UIViewController, ListDisplayLogic {
         setupFakeCustomLeftBarButtonItem()
     }
     
+// MARK: - Setup ButtonsStackView
+    private func setupButtonsStackView() {
+        
+        let drinksButton = CategoryButton(text: "Drinks")
+        
+        let pizzaButton = CategoryButton(text: "Pizza")
+        
+        let comboButton = CategoryButton(text: "Combo")
+        
+        let dessertsButton = CategoryButton(text: "Desserts")
+        
+        buttonsStackView = UIStackView(arrangedSubviews: [drinksButton, pizzaButton, comboButton, dessertsButton])
+        buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
+        buttonsStackView.axis = .horizontal
+        buttonsStackView.distribution = .fillEqually
+        buttonsStackView.spacing = 16
+        view.addSubview(buttonsStackView)
+        
+        // MARK: Constraints for this stackView
+        NSLayoutConstraint.activate([
+            buttonsStackView.heightAnchor.constraint(equalToConstant: 40),
+            buttonsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            buttonsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            buttonsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
+        ])
+    }
+    
 // MARK: - Setup CollectionView
     private func setupCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemGray5
         view.addSubview(collectionView)
-        
-        collectionView.register(BannerCell.self, forCellWithReuseIdentifier: BannerCell.reuseId)
+                
+        collectionView.register(BannerCell.self,  forCellWithReuseIdentifier: BannerCell.reuseId)
         collectionView.register(DrinkCell.self,   forCellWithReuseIdentifier: DrinkCell.reuseId)
         collectionView.register(PizzaCell.self,   forCellWithReuseIdentifier: PizzaCell.reuseId)
         collectionView.register(ComboCell.self,   forCellWithReuseIdentifier: ComboCell.reuseId)
         collectionView.register(DessertCell.self, forCellWithReuseIdentifier: DessertCell.reuseId)
+        
+        // MARK: Constraints for this collectionView
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 10),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
 // MARK: - Reload data

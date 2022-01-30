@@ -66,13 +66,14 @@ extension DrinkCell {
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
             nameLabel.leadingAnchor.constraint(equalTo: drinkImageView.trailingAnchor, constant: 16),
-            nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 16)
+            nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16)
         ])
         
         NSLayoutConstraint.activate([
-            taglineLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -32),
+            taglineLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 12),
+            taglineLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12),
             taglineLabel.leadingAnchor.constraint(equalTo: drinkImageView.trailingAnchor, constant: 16),
-            taglineLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 16)
+            taglineLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16)
         ])
         
     }
